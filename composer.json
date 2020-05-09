@@ -1,6 +1,6 @@
 {
   "name": "codebuds/webp-converter",
-  "description": "A service that uses php GD to convert Jpeg, Png, Gif and Bmp into webP",
+  "description": "A service that uses php GD to convert Jpeg, Png, Gif and Bmp into WebP",
   "license": "MIT",
   "authors": [
     {
@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CodeBuds\\WebpConverter\\": "src/"
+      "CodeBuds\\WebPConverter": "src/"
     }
   }
 }

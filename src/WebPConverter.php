@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Service;
+namespace CodeBuds\WebPConverter;
 
 use Exception;
 use Symfony\Component\HttpFoundation\File\File;
 
-class WebpConverter
+class WebPConverter
 {
     /**
      * @param $path
@@ -14,7 +14,7 @@ class WebpConverter
      * @return false|resource
      * @throws Exception
      */
-    public function createImageRessource($path, $extension)
+    private static function createImageRessource($path, $extension)
     {
         if ($extension === 'png') {
             $imageRessource = imagecreatefrompng($path);
@@ -27,14 +27,14 @@ class WebpConverter
         } else {
             throw new Exception("No valid file type provided for " . $path);
         }
-        $this->setColorsAndAlpha($imageRessource);
+        self::setColorsAndAlpha($imageRessource);
         return $imageRessource;
     }
 
     /**
      * @param $image
      */
-    private function setColorsAndAlpha(&$image)
+    private static function setColorsAndAlpha(&$image)
     {
         imagepalettetotruecolor($image);
         imagealphablending($image, true);
@@ -47,26 +47,25 @@ class WebpConverter
      * @return array|Exception|null
      * @throws Exception
      */
-    public function createWebpImage($image, $options)
+    public static function createWebPImage($image, $options = [])
     {
-        $file = ($image instanceof File) ? $image :  new File($image);
-        $path = ($image instanceof File) ? $image->getPathname() :  $image;
+        $file = ($image instanceof File) ? $image : new File($image);
+        $path = ($image instanceof File) ? $image->getPathname() : $image;
 
-        $saveFile = $options['saveFile'] ?: false;
-        $quality = $options['quality'] ?: 80;
+        $saveFile = $options['saveFile'] ??= false;
+        $quality = $options['quality'] ??= 80;
 
         $extension = $file->guessExtension();
 
         if ($file->guessExtension() === "webp") {
-            throw new Exception("{$path} is already webp");
+            throw new Exception("{$path} is already webP");
         }
 
         try {
-            $imageRessource = $this->createImageRessource($path, $extension);
+            $imageRessource = self::createImageRessource($path, $extension);
             $webPPath = substr($path, 0, strrpos($path, '.')) . ".webp";
 
-            if($saveFile)
-            {
+            if ($saveFile) {
                 imagewebp($imageRessource, $webPPath, $quality);
             }
             return [
