@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\File\File;
 class WebPConverter
 {
     /**
-     * @param $path
-     * @param $extension
+     * @param string $path
+     * @param string $extension
      * @return false|resource
      * @throws Exception
      */
-    private static function createImageRessource($path, $extension)
+    private static function createImageRessource(string $path, string $extension)
     {
         if ($extension === 'png') {
             $imageRessource = imagecreatefrompng($path);
@@ -32,7 +32,7 @@ class WebPConverter
     }
 
     /**
-     * @param $image
+     * @param resource $image
      */
     private static function setColorsAndAlpha(&$image)
     {
@@ -42,12 +42,12 @@ class WebPConverter
     }
 
     /**
-     * @param File|string $image
-     * @param $options
-     * @return array|Exception|null
+     * @param $image
+     * @param array $options
+     * @return array
      * @throws Exception
      */
-    public static function createWebPImage($image, $options = [])
+    public static function createWebPImage($image, array $options = []): array
     {
         $file = ($image instanceof File) ? $image : new File($image);
         $path = ($image instanceof File) ? $image->getPathname() : $image;
