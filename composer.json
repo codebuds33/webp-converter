@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CodeBuds\\WebPConverter": "src/"
+      "CodeBuds\\WebPConverter\\": "src/"
     }
   }
 }
