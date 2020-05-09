@@ -40,13 +40,13 @@ This can either just be the path to the image, in which case the function itself
 You can also directly pass the File element if you want :
 
 ```php
-    public function index()
-    {
-        // ...
-        $file  = new File("/var/www/symfony/public/images/5d31ca8c51d7f506941756.png");
-        $webp = WebPConverter::createWebpImage($file);
-        // ...
-    }
+public function index()
+{
+    // ...
+    $file  = new File("/var/www/symfony/public/images/test.png");
+    $webp = WebPConverter::createWebpImage($file);
+    // ...
+}
 ```
 
 ## Exceptions
@@ -73,10 +73,11 @@ This means you then need to run the gd function to save the image.
 However, if you set this function to true the image will be saved automatically by trigerring the gd `imagewebp` function.
 
 ```php
+$saveFile = $options['saveFile'] ??= false;
 if($saveFile)
-    {
-        imagewebp($imageRessource, $webPPath, $quality);
-    }
+{
+    imagewebp($imageRessource, $webPPath, $quality);
+}
 ```
 
 As that is possible, the second option is `quality` which by default is 80. This is only useful if the `saveFile` option is set to true (as the image is not created and saved otherwise).
