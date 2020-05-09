@@ -1,0 +1,21 @@
+{
+  "name": "codebuds/webp-converter",
+  "description": "A service that uses php GD to convert Jpeg, Png, Gif and Bmp into WebP",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dennis de Best",
+      "email": "dennis@codebuds.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ext-gd": "*",
+    "symfony/http-foundation": "5.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "CodeBuds\\WebPConverter": "src/"
+    }
+  }
+}
