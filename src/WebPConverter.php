@@ -153,9 +153,20 @@ class WebPConverter
      */
     public static function convertedWebPImageExists($file, array $options = []): bool
     {
+        return (file_exists(self::convertedWebPImagePath($file, $options)));
+    }
+
+    /**
+     * @param File|string $file
+     * @param array $options
+     * @return string
+     * @throws Exception
+     */
+    public static function convertedWebPImagePath($file, array $options = []): string
+    {
         $file instanceof File ?: $file = new File($file);
         self::setPathAndFilenameOptions($options, $file);
         self::verifyOptions($options);
-        return (file_exists(self::createWebPPath($options)));
+        return self::createWebPPath($options);
     }
 }
