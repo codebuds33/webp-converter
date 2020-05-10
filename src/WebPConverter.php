@@ -79,6 +79,31 @@ class WebPConverter
     }
 
     /**
+     * @param array $options
+     * @param File $file
+     */
+    private static function setPathAndFilenameOptions(array &$options, File $file)
+    {
+        $options['savePath'] ??= $file->getPath();
+        $options['filename'] ??= substr($file->getFilename(), 0, strrpos($file->getFilename(), '.'));
+    }
+
+    /**
+     * @param $options
+     * @return string
+     */
+    private static function createWebPPath($options): string
+    {
+        [
+            'savePath' => $savePath,
+            'filename' => $filename,
+            'filenameSuffix' => $filenameSuffix
+        ] = $options;
+
+        return "{$savePath}/{$filename}{$filenameSuffix}.webp";
+    }
+
+    /**
      * @param File|string $image
      * @param array $options
      * @return array
@@ -87,10 +112,9 @@ class WebPConverter
     public static function createWebPImage($image, array $options = []): array
     {
         $file = ($image instanceof File) ? $image : new File($image);
-        $fullPath = ($image instanceof File) ? $image->getRealPath() : $image;
+        $fullPath = $file->getRealPath();
 
-        $options['savePath'] ??= $file->getPath();
-        $options['filename'] ??= substr($file->getFilename(), 0, strrpos($file->getFilename(), '.'));
+        self::setPathAndFilenameOptions($options, $file);
 
         self::verifyOptions($options);
 
@@ -98,11 +122,7 @@ class WebPConverter
             'saveFile' => $saveFile,
             'force' => $force,
             'quality' => $quality,
-            'savePath' => $savePath,
-            'filename' => $filename,
-            'filenameSuffix' => $filenameSuffix
         ] = $options;
-
 
         $extension = $file->guessExtension();
 
@@ -111,7 +131,7 @@ class WebPConverter
         }
 
         $imageRessource = self::createImageRessource($fullPath, $extension);
-        $webPPath = "{$savePath}/{$filename}{$filenameSuffix}.webp";
+        $webPPath = self::createWebPPath($options);
 
         if ($saveFile) {
             if (file_exists($webPPath) && !$force) {
@@ -123,5 +143,19 @@ class WebPConverter
             "ressource" => $imageRessource,
             "path" => $webPPath
         ];
+    }
+
+    /**
+     * @param File|string $file
+     * @param array $options
+     * @return bool
+     * @throws Exception
+     */
+    public static function convertedWebPImageExists($file, array $options = []): bool
+    {
+        $file instanceof File ?: $file = new File($file);
+        self::setPathAndFilenameOptions($options, $file);
+        self::verifyOptions($options);
+        return (file_exists(self::createWebPPath($options)));
     }
 }
