@@ -51,11 +51,12 @@ public function index()
 
 ## Exceptions
 Multiple exceptions can be thrown. First of all the Symfony File is used for the `guessExtension()` function.
-This allows us to check the type of file provided and will make sure that whether the file is called .JPG, .jpeg, .jpg, ... or something else but it ends up being a jpeg file this is what will be used.
+This allows us to check the type of file provided and will make sure whether the file is called .JPG, .jpeg, .jpg, ... or something else but it ends up being a jpeg file this is what will be used.
 If the file is not one of the allowed types (jpeg, png, gif and bmp) an exception will be thrown.
 
 If the provided image is already a webP  image the exception will send that information.
 
+If the saveFile option is not a boolean, or the quality option is not an integer between 1 and 100 the information will be in an exception.
 
 Finally, if the file is one of the allowed types but something goes wrong during the conversion made by GD that exception will be forwarded.
 
