@@ -54,9 +54,13 @@ Multiple exceptions can be thrown. First of all the Symfony File is used for the
 This allows us to check the type of file provided and will make sure whether the file is called .JPG, .jpeg, .jpg, ... or something else but it ends up being a jpeg file this is what will be used.
 If the file is not one of the allowed types (jpeg, png, gif and bmp) an exception will be thrown.
 
-If the provided image is already a webP  image the exception will send that information.
+If the provided image is already a webP image the exception will send that information.
 
-If the saveFile option is not a boolean, or the quality option is not an integer between 1 and 100 the information will be in an exception.
+If the saveFile or the force options are not booleans, or the quality option is not an integer between 1 and 100 the information will be in an exception.
+
+The filename, filenameSuffix and savePath options need to be strings.
+
+If saveFile is set to true and force to the default false value, and the webP image already exists an exception will be thrown to let the user know force needs to be set to true is you want to override an existing file.
 
 Finally, if the file is one of the allowed types but something goes wrong during the conversion made by GD that exception will be forwarded.
 
@@ -71,7 +75,7 @@ You can also set options but this is not required.
 The `saveFile` option is false by default. As mentioned before this will only return the ressource, and the possible path for the webP image.
 This means you then need to run the gd function to save the image.
 
-However, if you set this function to true the image will be saved automatically by trigerring the gd `imagewebp` function.
+However, if you set this function to true the image will be saved automatically by triggering the gd `imagewebp` function.
 
 ```php
 $saveFile = $options['saveFile'] ??= false;
@@ -80,5 +84,35 @@ if($saveFile)
     imagewebp($imageRessource, $webPPath, $quality);
 }
 ```
+
+If you want to save the file directly there are more options to customize the webP file and it's location :
+
+```php
+$path = '/var/www/symfony/public/images/a_file.jpg';
+
+WebPConverter::createWebpImage(
+    $path,
+    [
+    'saveFile' => true,
+    'force' => true,
+    'filename' => 'a_new_file',
+    'filenameSuffix' => '_q50',
+    'quality' => 50,
+    'savePath' => '/var/www/symfony/public/webp'
+    ]
+);
+```
+
+This example will create the webP image /var/www/symfony/public/webp/a_new_file_q50.webp
+
+Default values :
+
+- `saveFile` => false
+- `force` => false
+- `quality` => 80
+- `filename` => the same as the file that is going to be converted.
+- `savePath` => the same as the path of the file that is going to be converted.
+- `filenameSuffix` => an empty string
+
 
 As that is possible, the second option is `quality` which by default is 80. This is only useful if the `saveFile` option is set to true (as the image is not created and saved otherwise).
