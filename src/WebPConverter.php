@@ -14,21 +14,21 @@ class WebPConverter
      * @return resource
      * @throws Exception
      */
-    private static function createImageRessource(string $path, string $extension)
+    private static function createImageResource(string $path, string $extension)
     {
         if ($extension === 'png') {
-            $imageRessource = imagecreatefrompng($path);
+            $imageResource = imagecreatefrompng($path);
         } elseif ($extension === 'jpeg') {
-            $imageRessource = imagecreatefromjpeg($path);
+            $imageResource = imagecreatefromjpeg($path);
         } elseif ($extension === 'bmp') {
-            $imageRessource = imagecreatefrombmp($path);
+            $imageResource = imagecreatefrombmp($path);
         } elseif ($extension === 'gif') {
-            $imageRessource = imagecreatefromgif($path);
+            $imageResource = imagecreatefromgif($path);
         } else {
             throw new Exception("No valid file type provided for {$path}");
         }
-        self::setColorsAndAlpha($imageRessource);
-        return $imageRessource;
+        self::setColorsAndAlpha($imageResource);
+        return $imageResource;
     }
 
     /**
@@ -130,17 +130,17 @@ class WebPConverter
             throw new Exception("{$fullPath} is already webP");
         }
 
-        $imageRessource = self::createImageRessource($fullPath, $extension);
+        $imageResource = self::createImageResource($fullPath, $extension);
         $webPPath = self::createWebPPath($options);
 
         if ($saveFile) {
             if (file_exists($webPPath) && !$force) {
                 throw new Exception("The webp file already exists, set the force option to true if you want to override it");
             }
-            imagewebp($imageRessource, $webPPath, $quality);
+            imagewebp($imageResource, $webPPath, $quality);
         }
         return [
-            "ressource" => $imageRessource,
+            "resource" => $imageResource,
             "path" => $webPPath
         ];
     }
