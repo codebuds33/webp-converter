@@ -141,7 +141,8 @@ class WebPConverter
         }
         return [
             "resource" => $imageResource,
-            "path" => $webPPath
+            "path" => $webPPath,
+            "options" => $options
         ];
     }
 
