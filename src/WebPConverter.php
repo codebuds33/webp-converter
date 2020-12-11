@@ -18,7 +18,7 @@ class WebPConverter
     {
         if ($extension === 'png') {
             $imageResource = imagecreatefrompng($path);
-        } elseif ($extension === 'jpeg') {
+        } elseif ($extension === 'jpeg' || $extension === 'jpg') {
             $imageResource = imagecreatefromjpeg($path);
         } elseif ($extension === 'bmp') {
             $imageResource = imagecreatefrombmp($path);
