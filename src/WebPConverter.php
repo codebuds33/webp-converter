@@ -34,7 +34,7 @@ class WebPConverter
     /**
      * @param resource $image
      */
-    private static function setColorsAndAlpha(&$image)
+    private static function setColorsAndAlpha($image): void
     {
         imagepalettetotruecolor($image);
         imagealphablending($image, true);
@@ -45,7 +45,7 @@ class WebPConverter
      * @param array $options
      * @throws Exception
      */
-    private static function verifyOptions(array &$options)
+    private static function verifyOptions(array &$options): void
     {
         $options['saveFile'] ??= false;
         $options['quality'] ??= 80;
@@ -82,7 +82,7 @@ class WebPConverter
      * @param array $options
      * @param File $file
      */
-    private static function setPathAndFilenameOptions(array &$options, File $file)
+    private static function setPathAndFilenameOptions(array &$options, File $file): void
     {
         $options['savePath'] ??= $file->getPath();
         $options['filename'] ??= substr($file->getFilename(), 0, strrpos($file->getFilename(), '.'));
