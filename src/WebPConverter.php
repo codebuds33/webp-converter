@@ -4,6 +4,7 @@
 namespace CodeBuds\WebPConverter;
 
 use Exception;
+use GdImage;
 use Symfony\Component\HttpFoundation\File\File;
 
 class WebPConverter
@@ -11,10 +12,9 @@ class WebPConverter
     /**
      * @param string $path
      * @param string $extension
-     * @return resource
      * @throws Exception
      */
-    private static function createImageResource(string $path, string $extension)
+    private static function createImageResource(string $path, string $extension): GdImage
     {
         if ($extension === 'png') {
             $imageResource = imagecreatefrompng($path);
@@ -31,10 +31,7 @@ class WebPConverter
         return $imageResource;
     }
 
-    /**
-     * @param resource $image
-     */
-    private static function setColorsAndAlpha($image): void
+    private static function setColorsAndAlpha(GdImage $image): void
     {
         imagepalettetotruecolor($image);
         imagealphablending($image, true);
@@ -78,21 +75,13 @@ class WebPConverter
         }
     }
 
-    /**
-     * @param array $options
-     * @param File $file
-     */
     private static function setPathAndFilenameOptions(array &$options, File $file): void
     {
         $options['savePath'] ??= $file->getPath();
         $options['filename'] ??= substr($file->getFilename(), 0, strrpos($file->getFilename(), '.'));
     }
 
-    /**
-     * @param $options
-     * @return string
-     */
-    private static function createWebPPath($options): string
+    private static function createWebPPath(array $options): string
     {
         [
             'savePath' => $savePath,
@@ -104,12 +93,9 @@ class WebPConverter
     }
 
     /**
-     * @param File|string $image
-     * @param array $options
-     * @return array
      * @throws Exception
      */
-    public static function createWebPImage($image, array $options = []): array
+    public static function createWebPImage(string|File $image, array $options = []): array
     {
         $file = ($image instanceof File) ? $image : new File($image);
         $fullPath = $file->getRealPath();
@@ -134,7 +120,7 @@ class WebPConverter
         $webPPath = self::createWebPPath($options);
 
         if ($saveFile) {
-            if (file_exists($webPPath) && !$force) {
+            if ($force && file_exists($webPPath)) {
                 throw new Exception("The webp file already exists, set the force option to true if you want to override it");
             }
             imagewebp($imageResource, $webPPath, $quality);
@@ -147,23 +133,17 @@ class WebPConverter
     }
 
     /**
-     * @param File|string $file
-     * @param array $options
-     * @return bool
      * @throws Exception
      */
-    public static function convertedWebPImageExists($file, array $options = []): bool
+    public static function convertedWebPImageExists(string|File $file, array $options = []): bool
     {
         return (file_exists(self::convertedWebPImagePath($file, $options)));
     }
 
     /**
-     * @param File|string $file
-     * @param array $options
-     * @return string
      * @throws Exception
      */
-    public static function convertedWebPImagePath($file, array $options = []): string
+    public static function convertedWebPImagePath(string|File $file, array $options = []): string
     {
         $file instanceof File ?: $file = new File($file);
         self::setPathAndFilenameOptions($options, $file);
