@@ -120,7 +120,7 @@ class WebPConverter
         $webPPath = self::createWebPPath($options);
 
         if ($saveFile) {
-            if ($force && file_exists($webPPath)) {
+            if (!$force && file_exists($webPPath)) {
                 throw new Exception("The webp file already exists, set the force option to true if you want to override it");
             }
             imagewebp($imageResource, $webPPath, $quality);
