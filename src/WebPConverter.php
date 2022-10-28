@@ -16,17 +16,13 @@ class WebPConverter
      */
     private static function createImageResource(string $path, string $extension): GdImage
     {
-        if ($extension === 'png') {
-            $imageResource = imagecreatefrompng($path);
-        } elseif ($extension === 'jpeg' || $extension === 'jpg') {
-            $imageResource = imagecreatefromjpeg($path);
-        } elseif ($extension === 'bmp') {
-            $imageResource = imagecreatefrombmp($path);
-        } elseif ($extension === 'gif') {
-            $imageResource = imagecreatefromgif($path);
-        } else {
-            throw new Exception("No valid file type provided for {$path}");
-        }
+        $imageResource = match ($extension) {
+            'jpeg', 'jpg' => imagecreatefromjpeg($path),
+            'png' => imagecreatefrompng($path),
+            'bmp' => imagecreatefrombmp($path),
+            'gif' => imagecreatefromgif($path),
+            default => throw new Exception("No valid file type provided for {$path}"),
+        };
         self::setColorsAndAlpha($imageResource);
         return $imageResource;
     }
