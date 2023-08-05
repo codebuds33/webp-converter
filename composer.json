@@ -16,11 +16,29 @@
   ,
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-		"phpunit/phpunit": "^9"
+    "rector/rector": "^0.15.21",
+    "symfony/phpunit-bridge": "^6.1"
   },
   "autoload": {
     "psr-4": {
       "CodeBuds\\WebPConverter\\": "src/"
     }
+  },
+  "scripts": {
+    "cs-fix": [
+      "php-cs-fixer fix --config=.php-cs-fixer.dist.php"
+    ],
+    "rector": [
+      "./vendor/bin/rector"
+    ],
+    "clean": [
+      "composer rector && composer cs-fix"
+    ],
+    "test": [
+      "php -dxdebug.mode=debug ./vendor/bin/simple-phpunit --configuration ./phpunit.xml.dist "
+    ],
+    "coverage": [
+      "export XDEBUG_MODE=coverage && php ./vendor/bin/simple-phpunit --configuration ./phpunit.xml.dist --coverage-text"
+    ]
   }
 }

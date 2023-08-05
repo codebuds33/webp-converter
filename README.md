@@ -1,3 +1,5 @@
+![Code Coverage Badge](./plugin/.coverage/badge.svg)
+
 # Webp Converter
 
 I had already found a great webP conversion package [rosell-dk/webp-convert](https://packagist.org/packages/rosell-dk/webp-convert) that seems to work in many cases.
