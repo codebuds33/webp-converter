@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodeBuds\WebPConverter;
 
 use Exception;
@@ -10,8 +9,6 @@ use Symfony\Component\HttpFoundation\File\File;
 class WebPConverter
 {
     /**
-     * @param string $path
-     * @param string $extension
      * @throws Exception
      */
     private static function createImageResource(string $path, string $extension): GdImage
@@ -35,7 +32,6 @@ class WebPConverter
     }
 
     /**
-     * @param array $options
      * @throws Exception
      */
     private static function verifyOptions(array &$options): void
