@@ -10,9 +10,9 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ ubuntu-latest ]
-                php-versions: [ '8.0', '8.1', '8.2' ]
+                php-versions: [ '8.1', '8.2' ]
                 php-unit-versions: [ '9.5', '10.2' ]
-                symfony-versions: [ '5.2', '6.0', '6.3' ]
+                symfony-versions: [ '6.1', '6.3' ]
         name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }} - PHPUnit ${{ matrix.php-unit-versions }}
         steps:
             -   uses: actions/checkout@v3
@@ -22,10 +22,6 @@ jobs:
                 with:
                     path: /tmp/composer-cache
                     key: ${{ runner.os }}-${{ matrix.symfony-versions }}-${{ hashFiles('**/composer.lock') }}
-
-            - name: Install compatible symfony/deprecation-contracts version for PHP 8.0
-              run: composer require --no-update symfony/deprecation-contracts:^2.4
-              if: matrix.php-versions == '8.0' && matrix.symfony-versions == '5.2'
 
             - name: Install Symfony
               run: composer require symfony/framework-bundle:${{ matrix.symfony-versions }}
