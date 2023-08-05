@@ -23,6 +23,10 @@ jobs:
                     path: /tmp/composer-cache
                     key: ${{ runner.os }}-${{ matrix.symfony-versions }}-${{ hashFiles('**/composer.lock') }}
 
+            - name: Install compatible symfony/deprecation-contracts version for PHP 8.0
+              run: composer require symfony/deprecation-contracts:^2.4
+              if: matrix.php-versions == '8.0' && matrix.symfony-versions == '5.2'
+
             - name: Install Symfony
               run: composer require symfony/framework-bundle:${{ matrix.symfony-versions }}
 
