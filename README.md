@@ -4,7 +4,8 @@
 
 I had already found a great webP conversion package [rosell-dk/webp-convert](https://packagist.org/packages/rosell-dk/webp-convert) that seems to work in many cases.
 
-However, most of my projects will now be running on PHP7.4 and Symfony5, so I created a very small converter for those situations.
+~However, most of my projects will now be running on PHP7.4 and Symfony5, so I created a very small converter for those situations.~
+
 
 ## Usage
 

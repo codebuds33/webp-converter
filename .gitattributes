@@ -4,6 +4,7 @@
 /config.subsplit-publish.json export-ignore
 /.editorconfig export-ignore
 /.php-cs-fixer.dist.php export-ignore
+/.php-cs-fixer.cache export-ignore
 /phpstan.neon export-ignore
 /phpunit.php export-ignore
 /phpunit.xml.dist export-ignore
@@ -22,6 +23,7 @@
 /mocked-functions.php export-ignore
 /test_files/ export-ignore
 /Tests export-ignore
+/src/Tests export-ignore
 /**/*Test.php export-ignore
 /**/*Stub.php export-ignore
 /**/Stub*.php export-ignore
