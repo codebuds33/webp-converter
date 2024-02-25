@@ -25,6 +25,8 @@ jobs:
 
             - name: Install Symfony
               run: composer require symfony/framework-bundle:${{ matrix.symfony-versions }}
+              with:
+                php_version: ${{ matrix.php-versions }}
 
             -   name: composer
                 uses: php-actions/composer@v6
